@@ -23,7 +23,7 @@
 - (instancetype)initWithView:(UIView *)view;
 
 
-- (instancetype)initWithView:(UIView *)view buttonNamesArray:(NSArray<__kindof NSString *> *)buttonNamesArray;
+- (instancetype)initWithCustomView:(UIView *)view buttonNamesArray:(NSArray<__kindof NSString *> *)buttonNamesArray aboveView:(UIView *)view;
 
 
 - (void)show;
