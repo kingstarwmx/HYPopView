@@ -10,7 +10,7 @@
 
 @interface HYPopView ()
 
-@property (nonatomic, strong) UIView *containerView;//容器视图
+@property (nonatomic, strong) HYBackgroundView *containerView;//容器视图
 
 @property (nonatomic, strong) NSDate *showStarted;
 
@@ -78,14 +78,42 @@
     self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.layer.allowsGroupOpacity = NO;
     
+    //设置背景视图
+    HYBackgroundView *backgroundView = [[HYBackgroundView alloc] initWithFrame:self.bounds];
+    backgroundView.style = HYBackgroundStyleSolidColor;
+    backgroundView.backgroundColor = [UIColor clearColor];
+    backgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    backgroundView.alpha = 0.f;
+    [self addSubview:backgroundView];
+    _backgroundView = backgroundView;
+    
+    
+    
     //创建能装下所有自定义视图和按钮的容器视图
-    UIView *containerView = [[UIView alloc] init];
+    HYBackgroundView *containerView = [[HYBackgroundView alloc] init];
     containerView.layer.cornerRadius = 7.f;
     containerView.backgroundColor = [UIColor whiteColor];
     containerView.clipsToBounds = YES;
     containerView.alpha = 0;
     [self addSubview:containerView];
     self.containerView = containerView;
+    
+    UILabel *label = [UILabel new];
+    label.adjustsFontSizeToFitWidth = NO;
+    label.textAlignment = NSTextAlignmentCenter;
+    label.textColor = self.contentColor;
+    label.font = [UIFont boldSystemFontOfSize:HYDefaultLabelFontSize];
+    _label = label;
+    
+    UILabel *detailsLabel = [UILabel new];
+    detailsLabel.adjustsFontSizeToFitWidth = NO;
+    detailsLabel.textAlignment = NSTextAlignmentCenter;
+    detailsLabel.textColor = self.contentColor;
+    detailsLabel.numberOfLines = 0;
+    detailsLabel.font = [UIFont boldSystemFontOfSize:HYDefaultDetailsLabelFontSize];
+    _detailsLabel = detailsLabel;
+    
+    
     
     [containerView addSubview:self.customView];
     
@@ -281,5 +309,7 @@
         [self showUsingAnimation:self.useAnimation];
     }
 }
+
+
 
 @end

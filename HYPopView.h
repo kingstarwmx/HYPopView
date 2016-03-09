@@ -10,7 +10,9 @@
 #import "HYBackgroundView.h"
 
 
-
+static const CGFloat HYDefaultPadding = 4.f;
+static const CGFloat HYDefaultLabelFontSize = 16.f;
+static const CGFloat HYDefaultDetailsLabelFontSize = 12.f;
 
 @protocol HYPopViewDelegate;
 
@@ -31,6 +33,12 @@ typedef NS_ENUM(NSInteger, HYPopViewAnimationType) {
 @property (nonatomic, strong) NSArray *buttonsArray;
 
 @property (nonatomic, strong) UIView *customView;
+
+@property (strong, nonatomic, readonly) UILabel *label;
+
+@property (strong, nonatomic, readonly) UILabel *detailsLabel;
+
+@property (strong, nonatomic, nullable) UIColor *contentColor;//控制视图上显示内容的颜色
 
 @property (nonatomic, strong) HYBackgroundView *backgroundView;//让背景变暗的视图,起到屏蔽作用跟突出前景作用
 
