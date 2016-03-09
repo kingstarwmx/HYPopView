@@ -498,7 +498,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
         self.bezelConstraints = nil;
     }
 
-    // Center bezel in container (self), applying the offset if set
+    // 让bezelView居中，如果有设置偏移，就根据偏移量来进行偏移
     CGPoint offset = self.offset;
     NSMutableArray *centeringConstraints = [NSMutableArray array];
     [centeringConstraints addObject:[NSLayoutConstraint constraintWithItem:bezel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.f constant:offset.x]];
@@ -1329,6 +1329,8 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 }
 
 @end
+
+
 
 @implementation MBProgressHUDRoundedButton
 

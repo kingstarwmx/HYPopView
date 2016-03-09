@@ -7,11 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		068BEABC1C900245008D6BD0 /* HYBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 068BEABB1C900245008D6BD0 /* HYBackgroundView.m */; };
+		068BEABF1C901EFC008D6BD0 /* HYPopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 068BEABE1C901EFC008D6BD0 /* HYPopView.m */; };
 		06E04D761C8D1E3700AEC5DD /* 114.png in Resources */ = {isa = PBXBuildFile; fileRef = 06E04D751C8D1E3700AEC5DD /* 114.png */; };
 		06E04D801C8D212C00AEC5DD /* zhangke@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 06E04D7F1C8D212C00AEC5DD /* zhangke@2x.png */; };
 		06E04D821C8D7D4600AEC5DD /* tabbar_message_press.png in Resources */ = {isa = PBXBuildFile; fileRef = 06E04D811C8D7D4600AEC5DD /* tabbar_message_press.png */; };
 		06E04D861C8D8C1800AEC5DD /* demo2.png in Resources */ = {isa = PBXBuildFile; fileRef = 06E04D851C8D8C1800AEC5DD /* demo2.png */; };
-		06E233EB1C8E817900BC39C3 /* HYCustomPopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 06E233EA1C8E817900BC39C3 /* HYCustomPopView.m */; };
 		1D3623260D0F684500981E51 /* MBHudDemoAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* MBHudDemoAppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
@@ -38,12 +39,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		068BEABA1C900245008D6BD0 /* HYBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYBackgroundView.h; sourceTree = "<group>"; };
+		068BEABB1C900245008D6BD0 /* HYBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYBackgroundView.m; sourceTree = "<group>"; };
+		068BEABD1C901EFC008D6BD0 /* HYPopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYPopView.h; sourceTree = "<group>"; };
+		068BEABE1C901EFC008D6BD0 /* HYPopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYPopView.m; sourceTree = "<group>"; };
 		06E04D751C8D1E3700AEC5DD /* 114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 114.png; sourceTree = "<group>"; };
 		06E04D7F1C8D212C00AEC5DD /* zhangke@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "zhangke@2x.png"; sourceTree = "<group>"; };
 		06E04D811C8D7D4600AEC5DD /* tabbar_message_press.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tabbar_message_press.png; sourceTree = "<group>"; };
 		06E04D851C8D8C1800AEC5DD /* demo2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = demo2.png; sourceTree = "<group>"; };
-		06E233E91C8E817900BC39C3 /* HYCustomPopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYCustomPopView.h; sourceTree = "<group>"; };
-		06E233EA1C8E817900BC39C3 /* HYCustomPopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYCustomPopView.m; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* MBHudDemoAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBHudDemoAppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* MBHudDemoAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBHudDemoAppDelegate.m; sourceTree = "<group>"; };
@@ -176,8 +179,10 @@
 		D28CBB391A87A6B00052DCEC /* MBProgressHUD */ = {
 			isa = PBXGroup;
 			children = (
-				06E233E91C8E817900BC39C3 /* HYCustomPopView.h */,
-				06E233EA1C8E817900BC39C3 /* HYCustomPopView.m */,
+				068BEABD1C901EFC008D6BD0 /* HYPopView.h */,
+				068BEABE1C901EFC008D6BD0 /* HYPopView.m */,
+				068BEABA1C900245008D6BD0 /* HYBackgroundView.h */,
+				068BEABB1C900245008D6BD0 /* HYBackgroundView.m */,
 			);
 			name = MBProgressHUD;
 			sourceTree = "<group>";
@@ -297,11 +302,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
+				068BEABF1C901EFC008D6BD0 /* HYPopView.m in Sources */,
+				068BEABC1C900245008D6BD0 /* HYBackgroundView.m in Sources */,
 				B39C1FF61C8F2EA2005BDBB7 /* MBViewController.m in Sources */,
 				1D3623260D0F684500981E51 /* MBHudDemoAppDelegate.m in Sources */,
 				B39C1FF31C8F18E0005BDBB7 /* MBProgressHUD.m in Sources */,
 				28D7ACF80DDB3853001CB0EB /* MBHudDemoViewController.m in Sources */,
-				06E233EB1C8E817900BC39C3 /* HYCustomPopView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

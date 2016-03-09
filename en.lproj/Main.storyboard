@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Zhr-Rx-CWc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Zhr-Rx-CWc">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
     </dependencies>
     <scenes>
         <!--MBProgressHUD-->
@@ -47,7 +47,35 @@
                     <view key="view" contentMode="scaleToFill" id="Dim-lt-56w">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dnH-EG-mxB">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="90"/>
+                                <color key="backgroundColor" red="0.40777409636871786" green="1" blue="0.73720841801535764" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="btnClicked:" destination="Zhr-Rx-CWc" eventType="touchUpInside" id="U7s-D1-9jC"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T5k-xP-baV">
+                                <rect key="frame" x="0.0" y="505" width="600" height="95"/>
+                                <color key="backgroundColor" red="0.26527235054665987" green="0.48638560933618591" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="cancelBtnClicked:" destination="Zhr-Rx-CWc" eventType="touchUpInside" id="uuS-ut-ZlC"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="T5k-xP-baV" secondAttribute="trailing" id="CPe-0z-Bg7"/>
+                            <constraint firstItem="T5k-xP-baV" firstAttribute="leading" secondItem="Dim-lt-56w" secondAttribute="leading" id="Hdj-gv-MWr"/>
+                            <constraint firstItem="dnH-EG-mxB" firstAttribute="top" secondItem="Dim-lt-56w" secondAttribute="top" id="RPS-Y3-Avc"/>
+                            <constraint firstItem="6Ha-TV-OB5" firstAttribute="top" secondItem="dnH-EG-mxB" secondAttribute="bottom" constant="510" id="iEu-38-5qd"/>
+                            <constraint firstItem="dnH-EG-mxB" firstAttribute="leading" secondItem="Dim-lt-56w" secondAttribute="leading" id="jdy-JT-b21"/>
+                            <constraint firstAttribute="trailing" secondItem="dnH-EG-mxB" secondAttribute="trailing" id="ngB-zE-Aba"/>
+                            <constraint firstItem="T5k-xP-baV" firstAttribute="top" secondItem="dnH-EG-mxB" secondAttribute="bottom" constant="415" id="pbF-N9-Mwn"/>
+                            <constraint firstAttribute="bottom" secondItem="T5k-xP-baV" secondAttribute="bottom" id="ub5-UU-yxN"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7H2-gJ-aV9" userLabel="First Responder" sceneMemberID="firstResponder"/>

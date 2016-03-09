@@ -69,7 +69,10 @@
     // Show the HUD on the root view (self.view is a scrollable table view and thus not suitable,
     // as the HUD would move with the content as we scroll).
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-
+//	hud.backgroundView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.7];
+	hud.bezelView.color = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.1];
+	hud.contentColor = [UIColor whiteColor];
+	hud.bezelView.style = MBProgressHUDBackgroundStyleSolidColor;
     // Fire off an asynchronous task, giving UIKit the opportunity to redraw wit the HUD added to the
     // view hierarchy.
     dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
@@ -150,7 +153,8 @@
     // Set the annular determinate mode to show task progress.
     hud.mode = MBProgressHUDModeAnnularDeterminate;
     hud.label.text = NSLocalizedString(@"Loading...", @"HUD loading title");
-
+	hud.contentColor = [UIColor whiteColor];
+	hud.bezelView.color = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.8];
     dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
         // Do something useful in the background and update the HUD periodically.
         [self doSomeWorkWithProgress];
@@ -240,10 +244,19 @@
     hud.label.text = NSLocalizedString(@"Preparing...", @"HUD preparing title");
     // Will look best, if we set a minimum size.
     hud.minSize = CGSizeMake(150.f, 100.f);
+	
 
     dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
         // Do something useful in the background and update the HUD periodically.
         [self doSomeWorkWithMixedProgress];
+//
+//			sleep(2);
+//		
+//		dispatch_async(dispatch_get_main_queue(), ^{
+//			hud.mode = MBProgressHUDModeDeterminate;
+//			hud.label.text = NSLocalizedString(@"Loading...", @"HUD loading title");
+//		});
+		
         dispatch_async(dispatch_get_main_queue(), ^{
             [hud hideAnimated:YES];
         });
@@ -290,7 +303,7 @@
     sleep(2);
     // Switch to determinate mode
     dispatch_async(dispatch_get_main_queue(), ^{
-        hud.mode = MBProgressHUDModeDeterminate;
+        hud.mode = MBProgressHUDModeAnnularDeterminate;
         hud.label.text = NSLocalizedString(@"Loading...", @"HUD loading title");
     });
     float progress = 0.0f;

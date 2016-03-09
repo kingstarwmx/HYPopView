@@ -7,28 +7,52 @@
 //
 
 #import "MBViewController.h"
-#import "HYCustomPopView.h"
+#import "HYPopView.h"
 
 @interface MBViewController ()
-
+@property (nonatomic, strong) HYPopView *hyView;
 @end
 
 @implementation MBViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"IMG_0504"]];
-    NSArray *array = @[@"了解更多", @"我知道了"];
-    HYCustomPopView *hyView = [[HYCustomPopView alloc] initWithCustomView:imageView buttonNamesArray:array aboveView:self.view];
-//    hyView.frame = CGRectMake(200, 200, 100, 100);
-//    [self.view addSubview:hyView];
-    [hyView show];
     
-//    UIWindow *keyWindow = [[UIApplication sharedApplication].delegate window];
-//    keyWindow.backgroundColor = [UIColor redColor];
+    
     self.view.backgroundColor = [UIColor grayColor];
+    
+    
+    
 }
 
+- (IBAction)btnClicked:(UIButton *)sender {
+    
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"IMG_0504"]];
+    
+    //创建按钮
+    UIButton *btn1 = [UIButton buttonWithType:UIButtonTypeCustom];
+    [btn1 setTitle:@"我知道了" forState:UIControlStateNormal];
+    [btn1 setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    [btn1 addTarget:self action:@selector(cancelBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIButton *btn2 = [UIButton buttonWithType:UIButtonTypeCustom];
+    [btn2 setTitle:@"了解更多" forState:UIControlStateNormal];
+    [btn2 setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    
+    
+    NSArray *buttonsArray = @[btn1, btn2];
+    
+    
+    self.hyView = [[HYPopView alloc] initWithCustomView:imageView buttonsArray:buttonsArray];
+    
+    
+    [self.hyView showAboveView:self.view];
+    
+}
 
+- (IBAction)cancelBtnClicked:(UIButton *)sender {
+    
+    [self.hyView hideAnimated:YES];
+}
 
 @end
