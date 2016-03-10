@@ -16,6 +16,19 @@ static const CGFloat HYDefaultDetailsLabelFontSize = 12.f;
 
 @protocol HYPopViewDelegate;
 
+typedef NS_ENUM(NSInteger, HYPopViewMode) {
+    /// 可显示文字，提示动画是系统的UIActivityIndicatorView
+    HYPopViewModeIndeterminate,
+    /// 可显示文字，提示动画是圆环
+    HYPopViewModeAnnularDeterminate,
+    /// 可显示文字，并且可以自定义图像来代替自带的提示动画，
+    HYPopViewModeCustomView,
+    /// 只显示文字
+    HYPopViewModeText,
+    /// 可显示图片和按钮
+    HYPopViewModePictureAndButton
+};
+
 typedef NS_ENUM(NSInteger, HYPopViewAnimationType) {
     /// Opacity animation
     HYPopViewAnimationFade,
@@ -29,14 +42,15 @@ typedef NS_ENUM(NSInteger, HYPopViewAnimationType) {
 
 @interface HYPopView : UIView
 
-//@property (nonatomic, strong) NSArray *buttonNamesArray;
+
 @property (nonatomic, strong) NSArray *buttonsArray;
 
+//在HYPopViewModeCustomView下可以自定义视图
 @property (nonatomic, strong) UIView *customView;
 
-@property (strong, nonatomic, readonly) UILabel *label;
+@property (copy, nonatomic) NSString *labelText;
 
-@property (strong, nonatomic, readonly) UILabel *detailsLabel;
+@property (copy, nonatomic) NSString *detailsLabelText;
 
 @property (strong, nonatomic, nullable) UIColor *contentColor;//控制视图上显示内容的颜色
 
@@ -44,15 +58,22 @@ typedef NS_ENUM(NSInteger, HYPopViewAnimationType) {
 
 @property (nonatomic, assign) HYPopViewAnimationType animationType;
 
+@property (assign, nonatomic) HYPopViewMode mode;
 
 @property (nonatomic, assign) CGFloat margin;
 
+/**
+ * The progress of the progress indicator, from 0.0 to 1.0. Defaults to 0.0.
+ */
+@property (assign, nonatomic) float progress;
 /**
  *  在这个graceTime(宽限时间)之内如果点击相应了将不会弹出视图，默认是0
  */
 @property (assign, nonatomic) NSTimeInterval graceTime;
 
 @property (assign, nonatomic) NSTimeInterval minShowTime;
+
+@property (assign, nonatomic) CGPoint offset;
 
 /**
  * Removes the HUD from its parent view when hidden.
@@ -62,13 +83,14 @@ typedef NS_ENUM(NSInteger, HYPopViewAnimationType) {
 
 @property (weak, nonatomic) id<HYPopViewDelegate> delegate;
 
-- (instancetype)initWithView:(UIView *)view;
+- (instancetype)initWithView:(nonnull UIView *)view;
 
 
-- (instancetype)initWithCustomView:(UIView *)view buttonsArray:(NSArray<__kindof UIButton *> *)buttonsArray;
+- (instancetype)initWithCustomView:(nullable UIView *)customView buttonsArray:(nullable NSArray<__kindof UIButton *> *)buttonsArray;
 
++ (instancetype)showHUDAddedTo:(UIView *)view animated:(BOOL)animated;
 
-- (void)showAboveView:(UIView *)view;
+- (void)showAboveView:(nonnull UIView *)view;
 
 - (void)hideAnimated:(BOOL)animated;
 

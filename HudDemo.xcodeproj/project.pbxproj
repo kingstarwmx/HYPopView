@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		063D4AD61C912178007EA3DA /* HYWithButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 063D4AD51C912178007EA3DA /* HYWithButtonView.m */; };
+		063D4AD91C9154F3007EA3DA /* HYRoundProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 063D4AD81C9154F3007EA3DA /* HYRoundProgressView.m */; };
 		068BEABC1C900245008D6BD0 /* HYBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 068BEABB1C900245008D6BD0 /* HYBackgroundView.m */; };
 		068BEABF1C901EFC008D6BD0 /* HYPopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 068BEABE1C901EFC008D6BD0 /* HYPopView.m */; };
 		06E04D761C8D1E3700AEC5DD /* 114.png in Resources */ = {isa = PBXBuildFile; fileRef = 06E04D751C8D1E3700AEC5DD /* 114.png */; };
@@ -39,6 +41,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		063D4AD41C912178007EA3DA /* HYWithButtonView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYWithButtonView.h; sourceTree = "<group>"; };
+		063D4AD51C912178007EA3DA /* HYWithButtonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYWithButtonView.m; sourceTree = "<group>"; };
+		063D4AD71C9154F3007EA3DA /* HYRoundProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYRoundProgressView.h; sourceTree = "<group>"; };
+		063D4AD81C9154F3007EA3DA /* HYRoundProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYRoundProgressView.m; sourceTree = "<group>"; };
 		068BEABA1C900245008D6BD0 /* HYBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYBackgroundView.h; sourceTree = "<group>"; };
 		068BEABB1C900245008D6BD0 /* HYBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYBackgroundView.m; sourceTree = "<group>"; };
 		068BEABD1C901EFC008D6BD0 /* HYPopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYPopView.h; sourceTree = "<group>"; };
@@ -181,6 +187,10 @@
 			children = (
 				068BEABD1C901EFC008D6BD0 /* HYPopView.h */,
 				068BEABE1C901EFC008D6BD0 /* HYPopView.m */,
+				063D4AD41C912178007EA3DA /* HYWithButtonView.h */,
+				063D4AD51C912178007EA3DA /* HYWithButtonView.m */,
+				063D4AD71C9154F3007EA3DA /* HYRoundProgressView.h */,
+				063D4AD81C9154F3007EA3DA /* HYRoundProgressView.m */,
 				068BEABA1C900245008D6BD0 /* HYBackgroundView.h */,
 				068BEABB1C900245008D6BD0 /* HYBackgroundView.m */,
 			);
@@ -301,7 +311,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				063D4AD91C9154F3007EA3DA /* HYRoundProgressView.m in Sources */,
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
+				063D4AD61C912178007EA3DA /* HYWithButtonView.m in Sources */,
 				068BEABF1C901EFC008D6BD0 /* HYPopView.m in Sources */,
 				068BEABC1C900245008D6BD0 /* HYBackgroundView.m in Sources */,
 				B39C1FF61C8F2EA2005BDBB7 /* MBViewController.m in Sources */,

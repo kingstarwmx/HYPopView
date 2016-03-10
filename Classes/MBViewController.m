@@ -43,10 +43,13 @@
     NSArray *buttonsArray = @[btn1, btn2];
     
     
-    self.hyView = [[HYPopView alloc] initWithCustomView:imageView buttonsArray:buttonsArray];
+//    self.hyView = [[HYPopView alloc] initWithCustomView:imageView buttonsArray:buttonsArray];
+//    
+//    
+//    [self.hyView showAboveView:self.view];
     
+    self.hyView = [HYPopView showHUDAddedTo:self.view animated:YES];
     
-    [self.hyView showAboveView:self.view];
     
 }
 
