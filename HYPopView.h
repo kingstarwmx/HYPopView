@@ -85,6 +85,7 @@ typedef NS_ENUM(NSInteger, HYPopViewAnimationType) {
 
 - (instancetype)initWithView:(nonnull UIView *)view;
 
++ (nullable HYPopView *)HUDForView:(nonnull UIView *)view;
 
 - (instancetype)initWithCustomView:(nullable UIView *)customView buttonsArray:(nullable NSArray<__kindof UIButton *> *)buttonsArray;
 

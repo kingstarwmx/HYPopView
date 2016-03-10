@@ -77,6 +77,16 @@
     return popView;
 }
 
++ (HYPopView *)HUDForView:(UIView *)view {
+    NSEnumerator *subviewsEnum = [view.subviews reverseObjectEnumerator];
+    for (UIView *subview in subviewsEnum) {
+        if ([subview isKindOfClass:self]) {
+            return (HYPopView *)subview;
+        }
+    }
+    return nil;
+}
+
 - (void)showAboveView:(UIView *)view{
     
     //    UIWindow *keyWindow = [[UIApplication sharedApplication].delegate window];
@@ -93,9 +103,9 @@
     self.lineViewArray = [NSMutableArray array];
     
     //设置默认属性
-    _margin = 0.f;
-    _animationType = HYPopViewAnimationFade;
-    _mode = HYPopViewModeIndeterminate;
+    _margin = 20.f;
+    _animationType = HYPopViewAnimationZoom;
+    _mode = HYPopViewModeAnnularDeterminate;
     self.backgroundColor = [UIColor clearColor];
     // Make it invisible for now
     self.alpha = 0.0f;
@@ -115,8 +125,8 @@
     
     //创建能装下所有自定义视图和按钮的容器视图
     HYBackgroundView *containerView = [[HYBackgroundView alloc] init];
-    containerView.layer.cornerRadius = 7.f;
-    containerView.backgroundColor = [UIColor whiteColor];
+    containerView.layer.cornerRadius = 5.f;
+    containerView.backgroundColor = [UIColor blackColor];
     containerView.clipsToBounds = YES;
     containerView.alpha = 0;
     [self addSubview:containerView];
@@ -140,6 +150,10 @@
     [self.containerView addSubview:detailsLabel];
     _detailsLabel = detailsLabel;
     
+//    self.indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+//    [(UIActivityIndicatorView *)self.indicator startAnimating];
+//    self.indicator.backgroundColor = [UIColor redColor];
+//    [self.containerView addSubview:self.indicator];
     
 }
 
@@ -175,6 +189,12 @@
         [indicator removeFromSuperview];
         indicator = self.customView;
         [self.containerView addSubview:indicator];
+        
+//        [indicator removeFromSuperview];
+//        indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+//        [(UIActivityIndicatorView *)indicator startAnimating];
+//        [self.containerView addSubview:indicator];
+        
     }
     else if (mode == HYPopViewModeText) {
         [indicator removeFromSuperview];
@@ -184,18 +204,16 @@
         indicator = [[HYWithButtonView alloc] initWithCustomView:self.customView buttonsArray:self.buttonsArray];
         [self.containerView addSubview:indicator];
     }
-    indicator.translatesAutoresizingMaskIntoConstraints = NO;
+    //indicator.translatesAutoresizingMaskIntoConstraints = NO;
     self.indicator = indicator;
     
     if ([indicator respondsToSelector:@selector(setProgress:)]) {
         [(id)indicator setValue:@(self.progress) forKey:@"progress"];
     }
     
-    [indicator setContentCompressionResistancePriority:998.f forAxis:UILayoutConstraintAxisHorizontal];
-    [indicator setContentCompressionResistancePriority:998.f forAxis:UILayoutConstraintAxisVertical];
     
     [self updateViewsForColor:self.contentColor];
-
+    [self setupFrames];
 }
 
 - (void)updateViewsForColor:(UIColor *)color {
@@ -220,101 +238,6 @@
     }
 }
 
-//- (void)updateConstraints {
-//    UIView *bezel = self.containerView;
-//    UIView *topSpacer = self.topSpacer;
-//    UIView *bottomSpacer = self.bottomSpacer;
-//    CGFloat margin = self.margin;
-//    NSMutableArray *bezelConstraints = [NSMutableArray array];
-//    NSDictionary *metrics = @{@"margin": @(margin)};
-//    
-//    NSMutableArray *subviews = [NSMutableArray arrayWithObjects:self.topSpacer, self.label, self.detailsLabel, self.bottomSpacer, nil];
-//    if (self.indicator) [subviews insertObject:self.indicator atIndex:1];
-//    
-//    // Remove existing constraintes
-//    [self removeConstraints:self.constraints];
-//    [topSpacer removeConstraints:topSpacer.constraints];
-//    [bottomSpacer removeConstraints:bottomSpacer.constraints];
-//    if (self.bezelConstraints) {
-//        [bezel removeConstraints:self.bezelConstraints];
-//        self.bezelConstraints = nil;
-//    }
-//    
-//    // Center bezel in container (self), applying the offset if set
-//    CGPoint offset = self.offset;
-//    NSMutableArray *centeringConstraints = [NSMutableArray array];
-//    [centeringConstraints addObject:[NSLayoutConstraint constraintWithItem:bezel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.f constant:offset.x]];
-//    [centeringConstraints addObject:[NSLayoutConstraint constraintWithItem:bezel attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterY multiplier:1.f constant:offset.y]];
-//    [self applyPriority:998.f toConstraints:centeringConstraints];
-//    [self addConstraints:centeringConstraints];
-//    
-//    // Ensure minimum side margin is kept
-//    NSMutableArray *sideConstraints = [NSMutableArray array];
-//    [sideConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"|-(>=margin)-[bezel]-(>=margin)-|" options:0 metrics:metrics views:NSDictionaryOfVariableBindings(bezel)]];
-//    [sideConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(>=margin)-[bezel]-(>=margin)-|" options:0 metrics:metrics views:NSDictionaryOfVariableBindings(bezel)]];
-//    [self applyPriority:999.f toConstraints:sideConstraints];
-//    [self addConstraints:sideConstraints];
-//    
-//    // Minimum bezel size, if set
-//    CGSize minimumSize = self.minSize;
-//    if (!CGSizeEqualToSize(minimumSize, CGSizeZero)) {
-//        NSMutableArray *minSizeConstraints = [NSMutableArray array];
-//        [minSizeConstraints addObject:[NSLayoutConstraint constraintWithItem:bezel attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:minimumSize.width]];
-//        [minSizeConstraints addObject:[NSLayoutConstraint constraintWithItem:bezel attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:minimumSize.height]];
-//        [self applyPriority:997.f toConstraints:minSizeConstraints];
-//        [bezelConstraints addObjectsFromArray:minSizeConstraints];
-//    }
-//    
-//    // Square aspect ratio, if set
-//    if (self.square) {
-//        NSLayoutConstraint *square = [NSLayoutConstraint constraintWithItem:bezel attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:bezel attribute:NSLayoutAttributeWidth multiplier:1.f constant:0];
-//        square.priority = 997.f;
-//        [bezelConstraints addObject:square];
-//    }
-//    
-//    // Top and bottom spacing
-//    [topSpacer addConstraint:[NSLayoutConstraint constraintWithItem:topSpacer attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:margin]];
-//    [bottomSpacer addConstraint:[NSLayoutConstraint constraintWithItem:bottomSpacer attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:margin]];
-//    // Top and bottom spaces should be equal
-//    [bezelConstraints addObject:[NSLayoutConstraint constraintWithItem:topSpacer attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:bottomSpacer attribute:NSLayoutAttributeHeight multiplier:1.f constant:0.f]];
-//    
-//    // Layout subviews in bezel
-//    NSMutableArray *paddingConstraints = [NSMutableArray new];
-//    [subviews enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
-//        // Center in bezel
-//        [bezelConstraints addObject:[NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:bezel attribute:NSLayoutAttributeCenterX multiplier:1.f constant:0.f]];
-//        // Ensure the minimum edge margin is kept
-//        [bezelConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"|-(>=margin)-[view]-(>=margin)-|" options:0 metrics:metrics views:NSDictionaryOfVariableBindings(view)]];
-//        // Element spacing
-//        if (idx == 0) {
-//            // First, ensure spacing to bezel edge
-//            [bezelConstraints addObject:[NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:bezel attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f]];
-//        } else if (idx == subviews.count - 1) {
-//            // Last, ensure spacigin to bezel edge
-//            [bezelConstraints addObject:[NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:bezel attribute:NSLayoutAttributeBottom multiplier:1.f constant:0.f]];
-//        }
-//        if (idx > 0) {
-//            // Has previous
-//            NSLayoutConstraint *padding = [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:subviews[idx - 1] attribute:NSLayoutAttributeBottom multiplier:1.f constant:0.f];
-//            [bezelConstraints addObject:padding];
-//            [paddingConstraints addObject:padding];
-//        }
-//    }];
-//    
-//    [bezel addConstraints:bezelConstraints];
-//    self.bezelConstraints = bezelConstraints;
-//    
-//    self.paddingConstraints = [paddingConstraints copy];
-//    [self updatePaddingConstraints];
-//    
-//    [super updateConstraints];
-//}
-
-//- (void)applyPriority:(UILayoutPriority)priority toConstraints:(NSArray *)constraints {
-//    for (NSLayoutConstraint *constraint in constraints) {
-//        constraint.priority = priority;
-//    }
-//}
 
 - (void)setupFrames{
     
@@ -331,7 +254,8 @@
     
     NSValue *sizeValue = [NSValue valueWithCGSize:CGSizeMake(self.bounds.size.width * 0.8, MAXFLOAT)];
     if (self.labelText) {
-        labelSize = [self.labelText sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:HYDefaultDetailsLabelFontSize], NSViewSizeDocumentAttribute:sizeValue}];
+        labelSize = [self.labelText sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:HYDefaultLabelFontSize]}];
+//        , NSViewSizeDocumentAttribute:sizeValue
     }
     if (self.detailsLabelText) {
         detailLabelSize = [self.labelText sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:HYDefaultDetailsLabelFontSize], NSViewSizeDocumentAttribute:sizeValue}];
@@ -359,7 +283,7 @@
     CGFloat detailsLabelY = CGRectGetMaxY(self.label.frame) + padding2;
     self.detailsLabel.frame = CGRectMake(detailsLabelX, detailsLabelY, detailLabelSize.width, detailLabelSize.height);
     
-    
+    [self setNeedsDisplay];
     
 }
 
@@ -441,10 +365,6 @@
     if (self.removeFromSuperViewOnHide) {
         [self removeFromSuperview];
     }
-    //    if (self.completionBlock) {
-    //        self.completionBlock();
-    //        self.completionBlock = NULL;
-    //    }
     
     id<HYPopViewDelegate> delegate = self.delegate;
     if ([delegate respondsToSelector:@selector(hudWasHidden:)]) {
@@ -507,10 +427,21 @@
 
 #pragma mark -- properties
 
+- (void)setCustomView:(UIView *)customView {
+    if (customView != _customView) {
+        _customView = customView;
+        if (self.mode == HYPopViewModeCustomView) {
+            [self updateIndicators];
+        }
+        
+    }
+}
+
 - (void) setLabelText:(NSString *)labelText {
     if (labelText != _labelText) {
         _labelText = labelText;
         self.label.text = self.labelText;
+        [self.label setFont:[UIFont systemFontOfSize:HYDefaultLabelFontSize]];
         [self setupFrames];
     }
 }
@@ -519,6 +450,7 @@
     if (detailsLabelText != _detailsLabelText) {
         _detailsLabelText = detailsLabelText;
         self.detailsLabel.text = self.detailsLabelText;
+        [self.label setFont:[UIFont systemFontOfSize:HYDefaultDetailsLabelFontSize]];
         [self setupFrames];
     }
 }

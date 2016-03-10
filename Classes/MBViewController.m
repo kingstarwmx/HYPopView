@@ -11,6 +11,7 @@
 
 @interface MBViewController ()
 @property (nonatomic, strong) HYPopView *hyView;
+@property (nonatomic, assign) BOOL canceled;
 @end
 
 @implementation MBViewController
@@ -43,19 +44,56 @@
     NSArray *buttonsArray = @[btn1, btn2];
     
     
-//    self.hyView = [[HYPopView alloc] initWithCustomView:imageView buttonsArray:buttonsArray];
-//    
-//    
-//    [self.hyView showAboveView:self.view];
+    [self setCustom];
     
+    
+    
+}
+
+- (void)setCustom{
     self.hyView = [HYPopView showHUDAddedTo:self.view animated:YES];
+    self.hyView.mode = HYPopViewModeCustomView;
+//    self.hyView.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_follow"]];
+//    UIView *aview = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
+    UIImageView *imagev = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_follow"]];
+    self.hyView.customView = imagev;
     
+}
+
+- (void)setAnnular{
+    self.hyView = [HYPopView showHUDAddedTo:self.view animated:YES];
+    self.hyView.mode = HYPopViewModeAnnularDeterminate;
+    self.hyView.labelText = @"ABCD";
+    self.hyView.contentColor = [UIColor whiteColor];
     
+    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+        // Do something useful in the background and update the HUD periodically.
+        [self doSomeWorkWithProgress];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.hyView hideAnimated:YES];
+        });
+    });
 }
 
 - (IBAction)cancelBtnClicked:(UIButton *)sender {
     
     [self.hyView hideAnimated:YES];
+}
+
+- (void)doSomeWorkWithProgress {
+    self.canceled = NO;
+    // This just increases the progress indicator in a loop.
+    float progress = 0.0f;
+    while (progress < 1.0f) {
+        if (self.canceled) break;
+        progress += 0.01f;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            // Instead we could have also passed a reference to the HUD
+            // to the HUD to myProgressTask as a method parameter.
+            [HYPopView HUDForView:self.view].progress = progress;
+        });
+        usleep(50000);
+    }
 }
 
 @end
