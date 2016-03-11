@@ -83,7 +83,7 @@ typedef NS_ENUM(NSInteger, HYPopViewAnimationType) {
 
 @property (weak, nonatomic) id<HYPopViewDelegate> delegate;
 
-- (instancetype)initWithView:(nonnull UIView *)view;
+- (nonnull instancetype)initWithView:(nonnull UIView *)view;
 
 + (nullable HYPopView *)HUDForView:(nonnull UIView *)view;
 
@@ -91,7 +91,9 @@ typedef NS_ENUM(NSInteger, HYPopViewAnimationType) {
 
 + (instancetype)showHUDAddedTo:(UIView *)view animated:(BOOL)animated;
 
-- (void)showAboveView:(nonnull UIView *)view;
+
+
+- (void)showAnimated:(BOOL)animated;
 
 - (void)hideAnimated:(BOOL)animated;
 

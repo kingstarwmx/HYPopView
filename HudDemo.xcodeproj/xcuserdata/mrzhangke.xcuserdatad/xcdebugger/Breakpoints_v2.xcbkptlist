@@ -19,13 +19,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "HYPopView.m"
-            timestampString = "479357750.478162"
+            filePath = "HYWithButtonView.m"
+            timestampString = "479375312.248484"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "199"
-            endingLineNumber = "199"
-            landmarkName = "-updateIndicators"
+            startingLineNumber = "61"
+            endingLineNumber = "61"
+            landmarkName = "-setupViews"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -36,7 +36,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HYWithButtonView.m"
-            timestampString = "479359887.243145"
+            timestampString = "479375328.929052"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "131"

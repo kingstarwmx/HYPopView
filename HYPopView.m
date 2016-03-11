@@ -12,7 +12,7 @@
 
 @interface HYPopView ()
 
-@property (nonatomic, strong) HYBackgroundView *containerView;//容器视图
+@property (nonatomic, strong) UIView *containerView;//容器视图
 
 @property (nonatomic, strong) UIView *indicator;
 
@@ -51,24 +51,30 @@
 }
 
 - (instancetype)initWithView:(UIView *)view{
-    _customView = view;
+    //_customView = view;
     return [self initWithFrame:view.bounds];
 }
 
 
 - (instancetype)initWithCustomView:(UIView *)customView buttonsArray:(NSArray<__kindof UIButton *> *)buttonsArray{
     
+    
     _customView = customView;
     _buttonsArray = buttonsArray;
+    
+    
     return [self initWithFrame:[UIScreen mainScreen].bounds];
 }
 
 + (instancetype)showHUDAddedTo:(UIView *)view animated:(BOOL)animated{
     HYPopView *popView = [[self alloc] initWithView:view];
-    [popView removeFromSuperview];
+    //[popView removeFromSuperview];
     [view addSubview:popView];
     [popView showAnimated:animated];
     return popView;
+    
+    
+    
 }
 
 + (HYPopView *)HUDForView:(UIView *)view {
@@ -81,16 +87,6 @@
     return nil;
 }
 
-- (void)showAboveView:(UIView *)view{
-    
-    //    UIWindow *keyWindow = [[UIApplication sharedApplication].delegate window];
-    //    keyWindow.backgroundColor = [UIColor redColor];
-    [view addSubview:self];
-    [self showAnimated:YES];
-    
-    //self.containerView.center = keyWindow.center;
-}
-
 - (void)setupViews{
     
     //self.buttonsArray = [NSMutableArray array];
@@ -98,7 +94,7 @@
     
     //设置默认属性
     _margin = 20.f;
-    _animationType = HYPopViewAnimationZoom;
+    _animationType = HYPopViewAnimationFade;
     _mode = HYPopViewModeIndeterminate;
     self.backgroundColor = [UIColor clearColor];
     // Make it invisible for now
@@ -115,168 +111,40 @@
     [self addSubview:backgroundView];
     _backgroundView = backgroundView;
     
-    
-    
-    //创建能装下所有自定义视图和按钮的容器视图
-    HYBackgroundView *containerView = [[HYBackgroundView alloc] init];
+    UIView *containerView = [UIView new];
     containerView.layer.cornerRadius = 5.f;
-    containerView.backgroundColor = [UIColor blackColor];
     containerView.clipsToBounds = YES;
-    containerView.alpha = 0;
+    containerView.alpha = 0.f;
     [self addSubview:containerView];
-    self.containerView = containerView;
-    
-    UILabel *label = [UILabel new];
-    label.adjustsFontSizeToFitWidth = NO;
-    label.textAlignment = NSTextAlignmentCenter;
-    label.textColor = self.contentColor;
-    label.font = [UIFont boldSystemFontOfSize:HYDefaultLabelFontSize];
-    [self.containerView addSubview:label];
-    _label = label;
+    _containerView = containerView;
     
     
-    UILabel *detailsLabel = [UILabel new];
-    detailsLabel.adjustsFontSizeToFitWidth = NO;
-    detailsLabel.textAlignment = NSTextAlignmentCenter;
-    detailsLabel.textColor = self.contentColor;
-    detailsLabel.numberOfLines = 0;
-    detailsLabel.font = [UIFont boldSystemFontOfSize:HYDefaultDetailsLabelFontSize];
-    [self.containerView addSubview:detailsLabel];
-    _detailsLabel = detailsLabel;
-    
-//    self.indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-//    [(UIActivityIndicatorView *)self.indicator startAnimating];
-//    self.indicator.backgroundColor = [UIColor redColor];
-//    [self.containerView addSubview:self.indicator];
-    
+
 }
+
+
 
 //更新指示器视图
 - (void)updateIndicators {
-    UIView *indicator = self.indicator;
-    BOOL isActivityIndicator = [indicator isKindOfClass:[UIActivityIndicatorView class]];
-    BOOL isRoundIndicator = [indicator isKindOfClass:[HYRoundProgressView class]];
     
-    HYPopViewMode mode = self.mode;
-    if (mode == HYPopViewModeIndeterminate) {
-        if (!isActivityIndicator) {
-            // Update to indeterminate indicator
-            [indicator removeFromSuperview];
-            indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-            [(UIActivityIndicatorView *)indicator startAnimating];
-            [self.containerView addSubview:indicator];
-        }
-    }
-    else if (mode == HYPopViewModeAnnularDeterminate) {
-        if (!isRoundIndicator) {
-            // Update to determinante indicator
-            [indicator removeFromSuperview];
-            indicator = [[HYRoundProgressView alloc] init];
-            [self.containerView addSubview:indicator];
-        }
-
-            [(HYRoundProgressView *)indicator setAnnular:YES];
-        
-    }
-    else if (mode == HYPopViewModeCustomView && self.customView != indicator) {
-        // Update custom view indicator
-        [indicator removeFromSuperview];
-        indicator = self.customView;
-        NSLog(@"%@\n%@\n---------\n%@\n%@",self,self.subviews,indicator,indicator.subviews);
-        [self.containerView addSubview:indicator];
-        
-//        [indicator removeFromSuperview];
-//        indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-//        [(UIActivityIndicatorView *)indicator startAnimating];
-//        [self.containerView addSubview:indicator];
-        
-    }
-    else if (mode == HYPopViewModeText) {
-        [indicator removeFromSuperview];
-        indicator = nil;
-    }else if (mode == HYPopViewModePictureAndButton){
-        [indicator removeFromSuperview];
-        indicator = [[HYWithButtonView alloc] initWithCustomView:self.customView buttonsArray:self.buttonsArray];
-        [self.containerView addSubview:indicator];
-    }
-    //indicator.translatesAutoresizingMaskIntoConstraints = NO;
+    UIView *indicator = self.indicator;
+    [indicator removeFromSuperview];
+    HYWithButtonView *btnView = [[HYWithButtonView alloc] initWithCustomView:self.customView buttonsArray:self.buttonsArray];
+    indicator = btnView;
+    
+    [self.containerView addSubview:indicator];
     self.indicator = indicator;
     
-    if ([indicator respondsToSelector:@selector(setProgress:)]) {
-        [(id)indicator setValue:@(self.progress) forKey:@"progress"];
-    }
-    
-    
-    [self updateViewsForColor:self.contentColor];
     [self setupFrames];
 }
 
-- (void)updateViewsForColor:(UIColor *)color {
-    if (!color) return;
-    
-    self.label.textColor = color;
-    self.detailsLabel.textColor = color;
-    
-    
-    UIView *indicator = self.indicator;
-    if ([indicator isKindOfClass:[UIActivityIndicatorView class]]) {
-        ((UIActivityIndicatorView *)indicator).color = color;
-    } else if ([indicator isKindOfClass:[HYRoundProgressView class]]) {
-        ((HYRoundProgressView *)indicator).progressTintColor = color;
-        ((HYRoundProgressView *)indicator).backgroundTintColor = [color colorWithAlphaComponent:0.1];
-    } else {
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000
-        if ([indicator respondsToSelector:@selector(setTintColor:)]) {
-            [indicator setTintColor:color];
-        }
-#endif
-    }
-}
+
 
 
 - (void)setupFrames{
     
-    CGFloat indicatorWidth = 0;
-    CGFloat indicatorHeight = 0;
-    
-    CGSize labelSize = CGSizeZero;
-    CGSize detailLabelSize = CGSizeZero;
-    
-    if (self.indicator) {
-        indicatorWidth = self.indicator.bounds.size.width;
-        indicatorHeight = self.indicator.bounds.size.width;
-    }
-    
-    NSValue *sizeValue = [NSValue valueWithCGSize:CGSizeMake(self.bounds.size.width * 0.8, MAXFLOAT)];
-    if (self.labelText) {
-        labelSize = [self.labelText sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:HYDefaultLabelFontSize]}];
-//        , NSViewSizeDocumentAttribute:sizeValue
-    }
-    if (self.detailsLabelText) {
-        detailLabelSize = [self.labelText sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:HYDefaultDetailsLabelFontSize], NSViewSizeDocumentAttribute:sizeValue}];
-    }
-    
-    
-    CGFloat containerWidth = MAX(MAX(indicatorWidth, labelSize.width), detailLabelSize.width) + 2 * self.margin;
-    CGFloat padding1 = self.labelText ? HYDefaultPadding:0;
-    CGFloat padding2 = self.detailsLabelText ? HYDefaultPadding:0;
-    CGFloat containerHeight = indicatorHeight + labelSize.height + detailLabelSize.height + padding1 + padding2 + 2 * self.margin;
-    
-    //设置containerView的中心，根据传入的offset偏移
-    self.containerView.bounds = CGRectMake(0, 0, containerWidth, containerHeight);
-    self.containerView.center = CGPointMake(self.center.x + self.offset.x, self.center.y + self.offset.y);
-    
-    CGFloat indicatorX = (containerWidth - indicatorWidth) / 2;
-    CGFloat indicatorY = self.margin;
-    self.indicator.frame = CGRectMake(indicatorX, indicatorY, indicatorWidth, indicatorHeight);
-    
-    CGFloat LabelX = (containerWidth - labelSize.width) / 2;
-    CGFloat LabelY = CGRectGetMaxY(self.indicator.frame) + padding1;
-    self.label.frame = CGRectMake(LabelX, LabelY, labelSize.width, labelSize.height);
-    
-    CGFloat detailsLabelX = (containerWidth - detailLabelSize.width) / 2;
-    CGFloat detailsLabelY = CGRectGetMaxY(self.label.frame) + padding2;
-    self.detailsLabel.frame = CGRectMake(detailsLabelX, detailsLabelY, detailLabelSize.width, detailLabelSize.height);
+    self.containerView.bounds = self.indicator.bounds;
+    self.containerView.center = self.center;
     
     [self setNeedsDisplay];
     
@@ -381,7 +249,7 @@
     
     // Set starting state
     UIView *containerView = self.containerView;
-    
+    NSLog(@"opacity:%f", containerView.alpha);
     if (animatingIn && containerView.alpha == 0.f && type == HYPopViewAnimationZoomIn) {
         containerView.transform = small;
     } else if (animatingIn && containerView.alpha == 0.f && type == HYPopViewAnimationZoomOut) {
@@ -425,13 +293,11 @@
 - (void)setCustomView:(UIView *)customView {
     if (customView != _customView) {
         _customView = customView;
-        if (self.mode == HYPopViewModeCustomView) {
-            [self updateIndicators];
-        }
+        [self updateIndicators];
+        
         
     }
 }
-
 
 - (void)setButtonsArray:(NSArray *)buttonsArray{
     if (buttonsArray != _buttonsArray) {
@@ -441,46 +307,11 @@
     }
 }
 
-- (void) setLabelText:(NSString *)labelText {
-    if (labelText != _labelText) {
-        _labelText = labelText;
-        self.label.text = self.labelText;
-        [self.label setFont:[UIFont systemFontOfSize:HYDefaultLabelFontSize]];
-        [self setupFrames];
-    }
-}
-
-- (void) setDetailsLabelText:(NSString *)detailsLabelText {
-    if (detailsLabelText != _detailsLabelText) {
-        _detailsLabelText = detailsLabelText;
-        self.detailsLabel.text = self.detailsLabelText;
-        [self.label setFont:[UIFont systemFontOfSize:HYDefaultDetailsLabelFontSize]];
-        [self setupFrames];
-    }
-}
-
-- (void)setProgress:(float)progress {
-    if (progress != _progress) {
-        _progress = progress;
-        UIView *indicator = self.indicator;
-        if ([indicator respondsToSelector:@selector(setProgress:)]) {
-            [(id)indicator setValue:@(self.progress) forKey:@"progress"];
-        }
-    }
-}
-
-- (void)setContentColor:(UIColor *)contentColor {
-    if (contentColor != _contentColor && ![contentColor isEqual:_contentColor]) {
-        _contentColor = contentColor;
-        [self updateViewsForColor:contentColor];
-    }
-}
-
 - (void)setMode:(HYPopViewMode)mode {
     if (mode != _mode) {
         _mode = mode;
         [self updateIndicators];
-        [self setupFrames];
+        //[self setupFrames];
     }
 }
 

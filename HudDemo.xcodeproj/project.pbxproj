@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		063D4AD61C912178007EA3DA /* HYWithButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 063D4AD51C912178007EA3DA /* HYWithButtonView.m */; };
 		063D4AD91C9154F3007EA3DA /* HYRoundProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 063D4AD81C9154F3007EA3DA /* HYRoundProgressView.m */; };
+		0661888B1C92BED000B4E6EC /* ShowHud.m in Sources */ = {isa = PBXBuildFile; fileRef = 0661888A1C92BED000B4E6EC /* ShowHud.m */; };
 		068BEABC1C900245008D6BD0 /* HYBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 068BEABB1C900245008D6BD0 /* HYBackgroundView.m */; };
 		068BEABF1C901EFC008D6BD0 /* HYPopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 068BEABE1C901EFC008D6BD0 /* HYPopView.m */; };
 		06E04D761C8D1E3700AEC5DD /* 114.png in Resources */ = {isa = PBXBuildFile; fileRef = 06E04D751C8D1E3700AEC5DD /* 114.png */; };
@@ -46,6 +47,8 @@
 		063D4AD51C912178007EA3DA /* HYWithButtonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYWithButtonView.m; sourceTree = "<group>"; };
 		063D4AD71C9154F3007EA3DA /* HYRoundProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYRoundProgressView.h; sourceTree = "<group>"; };
 		063D4AD81C9154F3007EA3DA /* HYRoundProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYRoundProgressView.m; sourceTree = "<group>"; };
+		066188891C92BED000B4E6EC /* ShowHud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShowHud.h; sourceTree = "<group>"; };
+		0661888A1C92BED000B4E6EC /* ShowHud.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShowHud.m; sourceTree = "<group>"; };
 		068BEABA1C900245008D6BD0 /* HYBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYBackgroundView.h; sourceTree = "<group>"; };
 		068BEABB1C900245008D6BD0 /* HYBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYBackgroundView.m; sourceTree = "<group>"; };
 		068BEABD1C901EFC008D6BD0 /* HYPopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYPopView.h; sourceTree = "<group>"; };
@@ -188,6 +191,8 @@
 		D28CBB391A87A6B00052DCEC /* MBProgressHUD */ = {
 			isa = PBXGroup;
 			children = (
+				066188891C92BED000B4E6EC /* ShowHud.h */,
+				0661888A1C92BED000B4E6EC /* ShowHud.m */,
 				068BEABD1C901EFC008D6BD0 /* HYPopView.h */,
 				068BEABE1C901EFC008D6BD0 /* HYPopView.m */,
 				063D4AD41C912178007EA3DA /* HYWithButtonView.h */,
@@ -321,6 +326,7 @@
 				068BEABF1C901EFC008D6BD0 /* HYPopView.m in Sources */,
 				068BEABC1C900245008D6BD0 /* HYBackgroundView.m in Sources */,
 				B39C1FF61C8F2EA2005BDBB7 /* MBViewController.m in Sources */,
+				0661888B1C92BED000B4E6EC /* ShowHud.m in Sources */,
 				1D3623260D0F684500981E51 /* MBHudDemoAppDelegate.m in Sources */,
 				B39C1FF31C8F18E0005BDBB7 /* MBProgressHUD.m in Sources */,
 				28D7ACF80DDB3853001CB0EB /* MBHudDemoViewController.m in Sources */,

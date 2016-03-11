@@ -29,7 +29,7 @@
     if (self) {
         [self setupViews];
         [self setupFrames];
-        self.layer.cornerRadius = 5.f;
+        //self.layer.cornerRadius = 5.f;
         self.clipsToBounds = YES;
         
     }
@@ -60,7 +60,7 @@
     for (UIView *button in self.buttonsArray) {
         //创建只有一个像素宽的分割线并添加到视图
         UIView *lineView = [UIView new];
-        lineView.backgroundColor = [UIColor colorWithRed:.3 green:.3 blue:.3 alpha:.3];
+        lineView.backgroundColor = [UIColor colorWithRed:.3 green:.3 blue:.3 alpha:.6];
         [self addSubview:lineView];
         [self.lineViewArray addObject:lineView];
         
@@ -114,14 +114,14 @@
         containerHeight =  _margin + customViewHeight + lineHeight + buttonHeight;
         
     }else {
-        for (int i = 0; i < self.lineViewArray.count; i ++) {
+        for (int i = 0; i < self.buttonsArray.count; i ++) {
             UIButton *btn = self.buttonsArray[i];
             btn.frame = CGRectMake(0, customViewHeight + _margin + lineHeight + (buttonHeight + lineHeight) * i, containerWidth, buttonHeight);
             
             UIView *line = self.lineViewArray[i];
             line.frame = CGRectMake(0, customViewHeight + _margin + (buttonHeight + lineHeight) * i, containerWidth, lineHeight);
         }
-        containerHeight =  _margin + customViewHeight + (lineHeight + buttonHeight) * self.lineViewArray.count;
+        containerHeight =  _margin + customViewHeight + (lineHeight + buttonHeight) * self.buttonsArray.count;
         
     }
     
