@@ -16,19 +16,30 @@
 
 @property (nonatomic, assign) CGFloat margin;
 
+@property (nonatomic, assign) NSInteger buttonCount;
+
 @property (nonatomic, strong) NSMutableArray *lineViewArray;
 
 @end
 
 @implementation HYWithButtonView
 
-
+- (instancetype)initWithFrame:(CGRect)frame{
+    self = [super initWithFrame:frame];
+    if (self) {
+        [self setupViews];
+        [self setupFrames];
+        self.layer.cornerRadius = 5.f;
+        self.clipsToBounds = YES;
+        
+    }
+    return self;
+}
 
 - (instancetype)initWithCustomView:(nullable UIView *)customView buttonsArray:(nullable NSArray<__kindof UIButton *> *)buttonsArray{
     _customView = customView;
     _buttonsArray = buttonsArray;
     
-    [self setupViews];
     CGRect rect = [self setupFrames];
     return [self initWithFrame:rect];
     
@@ -36,6 +47,8 @@
 
 - (void)setupViews{
     
+    
+    self.backgroundColor = [UIColor whiteColor];
     self.lineViewArray = [NSMutableArray array];
     
     //设置默认属性
@@ -43,10 +56,11 @@
     self.backgroundColor = [UIColor whiteColor];
     
     
+    //添加按钮
     for (UIView *button in self.buttonsArray) {
         //创建只有一个像素宽的分割线并添加到视图
         UIView *lineView = [UIView new];
-        lineView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.3];
+        lineView.backgroundColor = [UIColor colorWithRed:.3 green:.3 blue:.3 alpha:.3];
         [self addSubview:lineView];
         [self.lineViewArray addObject:lineView];
         
@@ -54,7 +68,7 @@
         [self addSubview:button];
     }
     
-    
+    [self addSubview:self.customView];
     
 }
 
@@ -74,7 +88,7 @@
     CGFloat customViewHeight = isOverSize ? customViewSize.height * screenWidth * 0.8 /  customViewSize.width: customViewSize.height;
     
     CGFloat buttonHeight = 44.f;
-    CGFloat lineHeight = 1.f;
+    CGFloat lineHeight = 0.5f;
     
     CGFloat containerWidth = customViewWidth + 2 * _margin;
     CGFloat containerHeight = 0.f;
@@ -84,7 +98,7 @@
     NSLog(@"%lu", self.lineViewArray.count);
     
     
-    if (self.lineViewArray.count == 2) {
+    if (self.buttonsArray.count == 2) {
         UIView *line1 = [self.lineViewArray objectAtIndex:0];
         line1.frame = CGRectMake(0, customViewHeight + _margin, containerWidth, lineHeight);
         

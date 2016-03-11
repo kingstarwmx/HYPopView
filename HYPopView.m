@@ -30,12 +30,6 @@
 
 @property (nonatomic, weak) UIView *belowView;
 
-@property (nonatomic, strong) UIView *topSpacer;
-
-@property (nonatomic, strong) UIView *bottomSpacer;
-
-@property (nonatomic, strong) NSArray *bezelConstraints;
-
 @property (strong, nonatomic, readonly) UILabel *label;
 
 @property (strong, nonatomic, readonly) UILabel *detailsLabel;
@@ -105,7 +99,7 @@
     //设置默认属性
     _margin = 20.f;
     _animationType = HYPopViewAnimationZoom;
-    _mode = HYPopViewModeAnnularDeterminate;
+    _mode = HYPopViewModeIndeterminate;
     self.backgroundColor = [UIColor clearColor];
     // Make it invisible for now
     self.alpha = 0.0f;
@@ -188,6 +182,7 @@
         // Update custom view indicator
         [indicator removeFromSuperview];
         indicator = self.customView;
+        NSLog(@"%@\n%@\n---------\n%@\n%@",self,self.subviews,indicator,indicator.subviews);
         [self.containerView addSubview:indicator];
         
 //        [indicator removeFromSuperview];
@@ -434,6 +429,15 @@
             [self updateIndicators];
         }
         
+    }
+}
+
+
+- (void)setButtonsArray:(NSArray *)buttonsArray{
+    if (buttonsArray != _buttonsArray) {
+        _buttonsArray = buttonsArray;
+        [self updateIndicators];
+        //[self setupFrames];
     }
 }
 
