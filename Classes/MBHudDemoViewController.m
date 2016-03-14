@@ -246,21 +246,37 @@
     hud.minSize = CGSizeMake(150.f, 100.f);
 	
 
-    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
-        // Do something useful in the background and update the HUD periodically.
-        [self doSomeWorkWithMixedProgress];
-//
-//			sleep(2);
+//    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+//        // Do something useful in the background and update the HUD periodically.
+//        [self doSomeWorkWithMixedProgress];
 //		
-//		dispatch_async(dispatch_get_main_queue(), ^{
-//			hud.mode = MBProgressHUDModeDeterminate;
-//			hud.label.text = NSLocalizedString(@"Loading...", @"HUD loading title");
-//		});
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//			
+//			
+//            [hud hideAnimated:YES];
+//        });
+//    });
+	
+	dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
 		
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [hud hideAnimated:YES];
-        });
-    });
+		sleep(2);
+		
+		dispatch_async(dispatch_get_main_queue(), ^{
+			
+			UIImage *image = [[UIImage imageNamed:@"Checkmark"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+			UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
+			hud.customView = imageView;
+			hud.mode = MBProgressHUDModeCustomView;
+			hud.label.text = NSLocalizedString(@"Completed", @"HUD completed title");
+		});
+		
+		sleep(1);
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[hud hideAnimated:YES];
+		});
+		
+	});
+	
 }
 
 - (void)networkingExample {

@@ -12,6 +12,6 @@
 
 
 
-- (instancetype)initWithCustomView:(nullable UIView *)view buttonsArray:(nullable NSArray<__kindof UIButton *> *)buttonsArray;
+- (nonnull instancetype)initWithCustomView:(nullable UIView *)view buttonsArray:(nullable NSArray<__kindof UIButton *> *)buttonsArray;
 
 @end

@@ -99,8 +99,9 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     _defaultMotionEffectsEnabled = YES;
 
     // Default color, depending on the current iOS version
-    BOOL isLegacy = kCFCoreFoundationVersionNumber < kCFCoreFoundationVersionNumber_iOS_7_0;
-    _contentColor = isLegacy ? [UIColor whiteColor] : [UIColor colorWithWhite:0.f alpha:0.7f];
+//    BOOL isLegacy = kCFCoreFoundationVersionNumber < kCFCoreFoundationVersionNumber_iOS_7_0;
+//    _contentColor = isLegacy ? [UIColor whiteColor] : [UIColor colorWithWhite:0.f alpha:0.7f];
+    _contentColor = [UIColor whiteColor];
     // Transparent background
     self.opaque = NO;
     self.backgroundColor = [UIColor clearColor];
@@ -309,6 +310,8 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     _backgroundView = backgroundView;
 
     MBBackgroundView *bezelView = [MBBackgroundView new];
+    bezelView.style = MBProgressHUDBackgroundStyleSolidColor;
+    bezelView.color = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.7];
     bezelView.translatesAutoresizingMaskIntoConstraints = NO;
     bezelView.layer.cornerRadius = 5.f;
     bezelView.alpha = 0.f;
@@ -320,7 +323,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     label.adjustsFontSizeToFitWidth = NO;
     label.textAlignment = NSTextAlignmentCenter;
     label.textColor = defaultColor;
-    label.font = [UIFont boldSystemFontOfSize:MBDefaultLabelFontSize];
+    label.font = [UIFont systemFontOfSize:MBDefaultLabelFontSize];
     _label = label;
 
     UILabel *detailsLabel = [UILabel new];

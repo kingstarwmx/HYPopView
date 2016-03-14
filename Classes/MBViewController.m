@@ -7,9 +7,11 @@
 //
 
 #import "MBViewController.h"
-#import "HYPopView.h"
+//#import "HYPopView.h"
 #import "HYWithButtonView.h"
 #import "ShowHud.h"
+#import "HYImageAndButtonView.h"
+#import "HYPopView.h"
 
 @interface MBViewController ()
 @property (nonatomic, assign) BOOL canceled;
@@ -24,9 +26,14 @@
     
     self.view.backgroundColor = [UIColor grayColor];
     
-    
-    
+    HYPopView *hyView = [[HYPopView alloc] initWithView:self.view];
+    self.hyView = hyView;
 }
+
+//- (void)hudWasHidden:(HYPopView *)hud{
+//    [hud removeFromSuperview];
+//    hud = nil;
+//}
 
 - (IBAction)btnClicked:(UIButton *)sender {
     
@@ -34,23 +41,10 @@
     
     //[self setCustom];
     
-//    [self setButtonAndCustomView];
-    [ShowHud showTextOnly:@"ABC" configParameter:^(ShowHud *config) {
-        
-    } duration:2.F inView:self.view];
-    
-    
+    //[self setButtonAndCustomView];
+//    [self.hyVi];
 }
 
-- (void)setCustom{
-    HYPopView *hyView = [HYPopView showHUDAddedTo:self.view animated:YES];
-    hyView.mode = HYPopViewModeCustomView;
-//    self.hyView.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_follow"]];
-//    UIView *aview = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
-    UIImageView *imagev = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_follow"]];
-    hyView.customView = imagev;
-    
-}
 
 - (void)setButtonAndCustomView{
     UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"IMG_0504"]];
@@ -86,53 +80,39 @@
 //    [hyView showAnimated:YES];
     
     
-    HYPopView *hyView = [HYPopView showHUDAddedTo:self.view animated:YES];
-    hyView.buttonsArray = buttonsArray;
-    hyView.customView = imageView;
-    self.hyView = hyView;
+//    HYImageAndButtonView *hyView = [HYImageAndButtonView showHUDAddedTo:self.view animated:YES];
+//    hyView.buttonsArray = buttonsArray;
+//    hyView.customView = imageView;
+    
+    [self.hyView showCustomView:imageView andButtons:buttonsArray];
+//    hyView.backgroundView.backgroundColor = [UIColor greenColor];
+//    hyView.delegate = self;
     
     
-//    HYWithButtonView *btnView = [[HYWithButtonView alloc] initWithCustomView:imageView buttonsArray:buttonsArray];
-//    btnView.center = self.view.center;
-//    [self.view addSubview:btnView];
-    
+
 }
 
-- (void)setAnnular{
-    HYPopView *hyView = [HYPopView showHUDAddedTo:self.view animated:YES];
-    hyView.mode = HYPopViewModeAnnularDeterminate;
-    hyView.labelText = @"ABCD";
-    hyView.contentColor = [UIColor whiteColor];
-    
-    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
-        // Do something useful in the background and update the HUD periodically.
-        [self doSomeWorkWithProgress];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [hyView hideAnimated:YES];
-        });
-    });
-}
+//- (void)setAnnular{
+//    HYPopView *hyView = [HYPopView showHUDAddedTo:self.view animated:YES];
+//    hyView.mode = HYPopViewModeAnnularDeterminate;
+//    hyView.labelText = @"ABCD";
+//    hyView.contentColor = [UIColor whiteColor];
+//    
+//    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+//        // Do something useful in the background and update the HUD periodically.
+//        [self doSomeWorkWithProgress];
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            [hyView hideAnimated:YES];
+//        });
+//    });
+//}
 
 - (IBAction)cancelBtnClicked:(UIButton *)sender {
     
     NSLog(@"------");
-    [self.hyView hideAnimated:YES];
+    [self.hyView hide];
 }
 
-- (void)doSomeWorkWithProgress {
-    self.canceled = NO;
-    // This just increases the progress indicator in a loop.
-    float progress = 0.0f;
-    while (progress < 1.0f) {
-        if (self.canceled) break;
-        progress += 0.01f;
-        dispatch_async(dispatch_get_main_queue(), ^{
-            // Instead we could have also passed a reference to the HUD
-            // to the HUD to myProgressTask as a method parameter.
-            [HYPopView HUDForView:self.view].progress = progress;
-        });
-        usleep(50000);
-    }
-}
+
 
 @end

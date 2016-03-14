@@ -1,112 +1,122 @@
 //
 //  HYPopView.h
-//  HudDemo
+//  Example
 //
-//  Created by MrZhangKe on 16/3/9.
-//  Copyright © 2016年 Matej Bukovinski. All rights reserved.
+//  Created by kingstar on 16/3/14.
+//  Copyright © 2016年 xjimi. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import "HYBackgroundView.h"
+#import <Foundation/Foundation.h>
+#import "MBProgressHUD.h"
+#import "HYImageAndButtonView.h"
 
+typedef void (^MBProgressHUDManagerCompletionBlock)();
 
-static const CGFloat HYDefaultPadding = 4.f;
-static const CGFloat HYDefaultLabelFontSize = 16.f;
-static const CGFloat HYDefaultDetailsLabelFontSize = 12.f;
+@interface HYPopView : NSObject<MBProgressHUDDelegate>
 
-@protocol HYPopViewDelegate;
+@property (nonatomic, strong) MBProgressHUD *HUD;
+@property (nonatomic, strong) HYImageAndButtonView *imageAndButtonView;
 
-typedef NS_ENUM(NSInteger, HYPopViewMode) {
-    /// 可显示文字，提示动画是系统的UIActivityIndicatorView
-    HYPopViewModeIndeterminate,
-    /// 可显示文字，提示动画是圆环
-    HYPopViewModeAnnularDeterminate,
-    /// 可显示文字，并且可以自定义图像来代替自带的提示动画，
-    HYPopViewModeCustomView,
-    /// 只显示文字
-    HYPopViewModeText,
-    /// 可显示图片和按钮
-    HYPopViewModePictureAndButton
-};
-
-typedef NS_ENUM(NSInteger, HYPopViewAnimationType) {
-    /// Opacity animation
-    HYPopViewAnimationFade,
-    /// Opacity + scale animation (zoom in when appearing zoom out when disappearing)
-    HYPopViewAnimationZoom,
-    /// Opacity + scale animation (zoom out style)
-    HYPopViewAnimationZoomOut,
-    /// Opacity + scale animation (zoom in style)
-    HYPopViewAnimationZoomIn
-};
-
-@interface HYPopView : UIView
-
-
-@property (nonatomic, strong) NSArray *buttonsArray;
-
-//在HYPopViewModeCustomView下可以自定义视图
-@property (nonatomic, strong) UIView *customView;
-
-@property (copy, nonatomic) NSString *labelText;
-
-@property (copy, nonatomic) NSString *detailsLabelText;
-
-@property (strong, nonatomic, nullable) UIColor *contentColor;//控制视图上显示内容的颜色
-
-@property (nonatomic, strong) HYBackgroundView *backgroundView;//让背景变暗的视图,起到屏蔽作用跟突出前景作用
-
-@property (nonatomic, assign) HYPopViewAnimationType animationType;
-
-@property (assign, nonatomic) HYPopViewMode mode;
-
-@property (nonatomic, assign) CGFloat margin;
+@property (copy) MBProgressHUDCompletionBlock completionBlock;
 
 /**
- * The progress of the progress indicator, from 0.0 to 1.0. Defaults to 0.0.
+ *  初始化方法
+ *  @param view 要添加到的view
  */
-@property (assign, nonatomic) float progress;
-/**
- *  在这个graceTime(宽限时间)之内如果点击相应了将不会弹出视图，默认是0
- */
-@property (assign, nonatomic) NSTimeInterval graceTime;
+- (id)initWithView:(UIView *)view;
 
-@property (assign, nonatomic) NSTimeInterval minShowTime;
-
-@property (assign, nonatomic) CGPoint offset;
 
 /**
- * Removes the HUD from its parent view when hidden.
- * Defaults to NO.
+ *  显示一个文本,会一直显示，不会消失
+ *  @param message 文本内容
  */
-@property (assign, nonatomic) BOOL removeFromSuperViewOnHide;
+- (void)showMessage:(NSString *)message;
+/**
+ *  显示一个文本,一段时间后消失
+ *  @param message 文本内容
+ *  @param duration 显示的持续时间
+ */
+- (void)showMessage:(NSString *)message duration:(NSTimeInterval)duration;
+/**
+ *  显示一个文本,一段时间后消失
+ *
+ *  @param message    文本内容
+ *  @param duration   显示的持续时间
+ *  @param completion 显示完后的回调
+ */
+- (void)showMessage:(NSString *)message duration:(NSTimeInterval)duration complection:(MBProgressHUDCompletionBlock)completion;
 
-@property (weak, nonatomic) id<HYPopViewDelegate> delegate;
-
-- (nonnull instancetype)initWithView:(nonnull UIView *)view;
-
-+ (nullable HYPopView *)HUDForView:(nonnull UIView *)view;
-
-- (instancetype)initWithCustomView:(nullable UIView *)customView buttonsArray:(nullable NSArray<__kindof UIButton *> *)buttonsArray;
-
-+ (instancetype)showHUDAddedTo:(UIView *)view animated:(BOOL)animated;
-
-
-
-- (void)showAnimated:(BOOL)animated;
-
-- (void)hideAnimated:(BOOL)animated;
-
-@end
-
-
-@protocol HYPopViewDelegate <NSObject>
-
-@optional
 
 /**
- * Called after the HUD was fully hidden from the screen.
+ *  显示内容上面是小菊花下面是文字
  */
-- (void)hudWasHidden:(HYPopView *)hud;
+- (void)showIndeterminateWithMessage:(NSString *)message;
+- (void)showIndeterminateWithMessage:(NSString *)message duration:(NSTimeInterval)duration;
+- (void)showIndeterminateWithMessage:(NSString *)message duration:(NSTimeInterval)duration complection:(MBProgressHUDCompletionBlock)completion;
+
+/**
+ *  显示内容上面是成功的符号下面是文字
+ */
+- (void)showSuccessWithMessage:(NSString *)message;
+- (void)showSuccessWithMessage:(NSString *)message duration:(NSTimeInterval)duration;
+- (void)showSuccessWithMessage:(NSString *)message duration:(NSTimeInterval)duration complection:(MBProgressHUDCompletionBlock)completion;
+
+/**
+ *  显示内容上面是错误的符号下面是文字
+ */
+- (void)showErrorWithMessage:(NSString *)message;
+- (void)showErrorWithMessage:(NSString *)message duration:(NSTimeInterval)duration;
+- (void)showErrorWithMessage:(NSString *)message duration:(NSTimeInterval)duration complection:(MBProgressHUDCompletionBlock)completion;
+
+/**
+ *  显示内容是自定义的视图
+ *  @param message    一个文本
+ *  @param customView 自定义传入一个UIView
+ */
+- (void)showMessage:(NSString *)message customView:(UIView *)customView;
+- (void)showMessage:(NSString *)message customView:(UIView *)customView duration:(NSTimeInterval)duration;
+- (void)showMessage:(NSString *)message customView:(UIView *)customView duration:(NSTimeInterval)duration complection:(MBProgressHUDCompletionBlock)completion;
+
+/**
+ *  自定义显示的模式
+ *  @param message    一个文本
+ *  @param mode
+ /// 小菊花转动
+ MBProgressHUDModeIndeterminate,
+ /// 用来显示进度的环状指示图，由内外两层圆环构成
+ MBProgressHUDModeDeterminate,
+ /// 水平进度条
+ MBProgressHUDModeDeterminateHorizontalBar,
+ /// 用来显示进度的环状指示图，只有一个圆环构成
+ MBProgressHUDModeAnnularDeterminate,
+ /// 自定义显示的视图
+ MBProgressHUDModeCustomView,
+ /// 只显示文字
+ MBProgressHUDModeText
+ *  @param duration    持续时间
+ */
+- (void)showMessage:(NSString *)message mode:(MBProgressHUDMode)mode;
+- (void)showMessage:(NSString *)message mode:(MBProgressHUDMode)mode duration:(NSTimeInterval)duration;
+- (void)showMessage:(NSString *)message mode:(MBProgressHUDMode)mode duration:(NSTimeInterval)duration complection:(MBProgressHUDCompletionBlock)completion;
+
+- (void)showProgress:(float)progress;
+
+
+/**
+ *  隐藏视图
+ */
+- (void)hide;
+
+
+/**
+ *  在一段时间后隐藏视图
+ *
+ *  @param duration   时间间隔
+ *  @param completion 隐藏以后的回调
+ */
+- (void)hideWithAfterDuration:(NSTimeInterval)duration completion:(MBProgressHUDCompletionBlock)completion;
+
+
+- (void)showCustomView:(UIView *)customView andButtons:(NSArray<__kindof UIButton *> *)buttonsArray;
 
 @end

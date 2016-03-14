@@ -29,7 +29,6 @@
     if (self) {
         [self setupViews];
         [self setupFrames];
-        //self.layer.cornerRadius = 5.f;
         self.clipsToBounds = YES;
         
     }
